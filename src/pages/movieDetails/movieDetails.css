@@ -1,0 +1,52 @@
+
+
+.movie__details__container {
+    background-color: darkseagreen;
+    display: flex;
+    flex-direction: column;
+    width: 80%;
+    margin: 50px auto;
+}
+
+.movie__header {
+    display: flex;
+}
+
+.movie__details__container h1 {
+    font-size: 5vw;
+    flex: 1;
+    background-color: deeppink;
+    padding: 10px;
+}
+
+.about__movie {
+    list-style-type: none;
+    background-color: darkslateblue;
+}
+
+.about__movie li {
+    padding: 10px;
+}
+
+.about__movie li span {
+    padding: 10px;
+}
+
+.movie__body {
+    display: flex;
+    gap: 20px;
+}
+
+.movie__body img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.movie__body__overview {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}

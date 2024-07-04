@@ -1,0 +1,25 @@
+.check__actors {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 30px;
+}
+
+.check__actors__title {
+    padding: 20px 10px;
+}
+
+.check__actor__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    width: 25%;
+}
+
+.check__actor__card img {
+    width: 100px;
+    height: 100px;
+    border-radius: 100%;
+}

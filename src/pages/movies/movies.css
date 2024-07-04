@@ -1,0 +1,27 @@
+
+.movies__container {
+    background: khaki;
+}
+
+.movies__container__title {
+    font-size: 4vw;
+    font-family: 'Pacifico', cursive;
+    color: #f39c12;
+    text-shadow: 3px 3px #e74c3c, -4px -4px black;
+    padding: 20px;
+    text-align: center;
+}
+.search__movie__container {
+    display: flex;
+    align-items: center;
+}
+.search__movie {
+    display: flex;
+    align-items: center;
+}
+.movie__cards {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 20px;
+}

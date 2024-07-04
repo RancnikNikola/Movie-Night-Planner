@@ -1,0 +1,32 @@
+
+.actors__container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.actor__card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-self: center;
+    list-style-type: none;
+    gap: 10px;
+}
+
+.actor__card img {
+    height: 100px;
+    width: 100px;
+    border-radius: 100%;
+}
+
+.actors__title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+}
+
+.actors__title a {
+    text-decoration: none;
+}
