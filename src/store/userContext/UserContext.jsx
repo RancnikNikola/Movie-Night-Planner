@@ -4,7 +4,10 @@ import { createContext, useEffect, useReducer } from 'react';
 import {
   onAuthStateChangedListener,
   createUserDocumentFromAuth,
+  database,
+  logOutUser,
 } from '../../utils/firebase';
+import { onDisconnect, onValue, ref, set } from 'firebase/database';
 
 export const UserContext = createContext({
   setCurrentUser: () => null,
@@ -36,10 +39,54 @@ export const UserProvider = ({ children }) => {
   const setCurrentUser = (user) =>
     dispatch({ type: USER_ACTION_TYPES.SET_CURRENT_USER, payload: user});
 
+
+  const handleUserStatus = (user) => {
+    if (user) {
+      const userStatusRef = ref(database, `status/${user.uid}`);
+
+      const isOfflineForDatabase = {
+        state: 'offline',
+        last_changed: new Date().getTime(),
+        displayName: user.displayName
+      };
+
+      const isOnlineForDatabase = {
+        state: 'online',
+        last_changed: new Date().getTime(),
+        displayName: user.displayName
+      };
+
+      onValue(ref(database, '.info/connected'), (snapshot) => {
+        if (snapshot.val() === false) {
+          return;
+        }
+
+        onDisconnect(userStatusRef).set(isOfflineForDatabase).then(() => {
+          set(userStatusRef, isOnlineForDatabase);
+        });
+      });
+    }
+  };
+
+  const logoutUser = async () => {
+    if (currentUser) {
+      const userStatusRef = ref(database, `status/${currentUser.uid}`);
+      const isOfflineForDatabase = {
+        state: 'offline',
+        last_changed: new Date().getTime(),
+        displayName: currentUser.displayName
+      };
+      await set(userStatusRef, isOfflineForDatabase);
+      await logOutUser();
+      setCurrentUser(null);
+    }
+  };
+
   useEffect(() => {
     const unsubscribe = onAuthStateChangedListener((user) => {
       if (user) {
         createUserDocumentFromAuth(user);
+        handleUserStatus(user);
       }
       setCurrentUser(user);
     });
@@ -51,6 +98,7 @@ export const UserProvider = ({ children }) => {
 
   const value = {
     currentUser,
+    logoutUser
   };
 
   return <UserContext.Provider value={value}>{children}</UserContext.Provider>;

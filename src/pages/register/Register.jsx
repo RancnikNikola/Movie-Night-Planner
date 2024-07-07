@@ -1,8 +1,10 @@
 import { useState } from 'react';
-
-import { register, createUserDocumentFromAuth } from '../../utils/firebase';
+import { registerUser, createUserDocumentFromAuth } from '../../utils/firebase';
+import { updateProfile } from 'firebase/auth';
+import { getStorage, ref, uploadBytes } from 'firebase/storage';
 
 import './register.css';
+
 
 const defaultFormFields = {
   displayName: '',
@@ -14,6 +16,7 @@ const defaultFormFields = {
 const Register = () => {
   const [formFields, setFormFields] = useState(defaultFormFields);
   const { displayName, email, password, confirmPassword } = formFields;
+  const [ photoFile, setPhotoFile ] = useState(null);
 
   const resetFormFields = () => {
     setFormFields(defaultFormFields);
@@ -28,9 +31,15 @@ const Register = () => {
     }
 
     try {
-      const { user } = await register(email, password);
+      const { user } = await registerUser(email, password);
 
-      createUserDocumentFromAuth(user, { displayName });
+      const photoURL = URL.createObjectURL(photoFile);
+
+      updateProfile(user, {
+        displayName: displayName,
+        photoURL: photoURL
+      });
+      
       resetFormFields();
     } catch (error) {
       if (error.code === 'auth/email-already-in-use') {
@@ -47,11 +56,29 @@ const Register = () => {
     setFormFields({ ...formFields, [name]: value });
   };
 
+  const handleProfilePhoto = (event) => {
+      const profileURL = event.target.files[0];
+      setPhotoFile(profileURL);
+  }
+
   return (
     <div className='sign-up-container'>
       <h2>Don't have an account?</h2>
       <span>Sign up with your email and password</span>
       <form onSubmit={handleSubmit}>
+        {/* { photoFile && 
+         <div className='input__image'>
+          <img alt='Not Found' width={"250px"} src={URL.createObjectURL(photoFile)} />
+          <br />
+          <button onClick={() => setPhotoFile(null)}>Remove</button>
+        </div>
+        } */}
+       
+        <input
+          type="file"
+          onChange={handleProfilePhoto}
+          placeholder="Profile Photo"
+        />
         <input
           type='text'
           required

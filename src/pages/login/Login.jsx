@@ -1,7 +1,7 @@
 
 
 import { useContext, useState } from 'react';
-import { login } from '../../utils/firebase';
+import { loginUser } from '../../utils/firebase';
 import './login.css';
 import { UserContext } from '../../store/userContext/UserContext';
 
@@ -17,8 +17,6 @@ export default function Login() {
 
     const userCtx = useContext(UserContext);
 
-
-    // console.log('USEER CTX', userCtx.currentUser.email)
     console.log('USER CTX', userCtx);
 
     const resetFormFields = () => {
@@ -29,7 +27,7 @@ export default function Login() {
         event.preventDefault();
     
         try {    
-          await login(email, password);
+          await loginUser(email, password);
           resetFormFields();
         } catch (error) {
           if (error.code === 'auth/email-already-in-use') {

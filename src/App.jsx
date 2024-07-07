@@ -8,26 +8,18 @@ import MovieNights from "./pages/movieNights/MovieNights";
 import MovieNightDetails from "./pages/movieNightDetails/movieNightDetails";
 import Movies from "./pages/movies/Movies";
 import MovieDetails from "./pages/movieDetails/MovieDetails";
-import './App.css'
 import { MovieNightsProvider } from "./store/movieNights/MovieNightsCtx";
-import { useContext } from "react";
-import { UserContext, UserProvider } from "./store/userContext/UserContext";
+import { UserProvider } from "./store/userContext/UserContext";
 
-// sredit na next page u new eventu da ne submita formu
+import './App.css'
+
 // stavit potrvrdu da je event kreiran i redirectat na event
 // sredit sve forme sa validacijom
 // u snacks[] ako se stavi ista stvar dva ili vise puta, povecaj, dodaj za maknit snacks svaku posebno
 // u movies, kad se izabere movie ima select movie botun, triba napisat tu funkcionalnost
-// vidit zasto display name ne zeli uzet u register formi
-// kad se logiras ili registriras napravit redirect na home page ili negdi
-// stavit api i osjetljive podatke u poseban file
-// na logout isto napravit redirect na login/register svejedno
 // profile page i sve vezano za nju
 
 function App() {
-
-  const userCtx = useContext(UserContext);
-  console.log(userCtx)
 
   const router = createBrowserRouter([
     { path: '/', element: <RootLayout />, 
@@ -44,11 +36,11 @@ function App() {
     }]);
 
   return (
-    <UserProvider>
-      <MovieNightsProvider>
-        <RouterProvider router={router} />
-      </MovieNightsProvider>
-    </UserProvider>
+      <UserProvider>
+        <MovieNightsProvider>
+          <RouterProvider router={router} />
+        </MovieNightsProvider>
+      </UserProvider>
   )
 }
 

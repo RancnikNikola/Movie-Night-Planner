@@ -1,22 +1,28 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { IoMenuSharp } from "react-icons/io5";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 import TapeLogo from '../../assets/Movie-tape.png';
 import ProfileImg from '../../assets/profile-img.jpg';
+import { logOutUser } from '../../utils/firebase';
 
 import './navigation.css';
-import { logOutUser } from '../../utils/firebase';
+import { UserContext } from '../../store/userContext/UserContext';
 
 function Navigation() {
     const [ isOpen, setIsOpen ] = useState(false);
+    const navigate = useNavigate();
+    const userCtx = useContext(UserContext);
 
     const toggleNav = () => {
         setIsOpen(!isOpen);
     }
 
     const handleLogout = async () => {
-        await logOutUser();
+        await userCtx.logoutUser();
+        navigate('/');
     }
+
+
 
     return (
         <nav className="navbar">

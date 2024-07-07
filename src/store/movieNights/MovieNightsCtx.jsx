@@ -1,21 +1,8 @@
-import { createContext, useContext, useReducer } from "react";
-// import { EVENTS as initialEvents } from '../../../events';
+import { createContext, useReducer } from "react";
 import { useState, useEffect } from "react";
 import { getDocs, collection } from "firebase/firestore";
 import { db } from "../../utils/firebase";
 
-
-// export const MovieNightsContext = createContext({
-//     movieNights: [],
-//     openModal: () => {},
-//     closeModal: () => {},
-//     isOpen: false,
-//     exitModal: () => {},
-//     openActorsModal: () => {},
-//     closeActorsModal: () => {},
-//     exitActorsModal: () => {},
-//     isActorsOpen: false,
-// });
 
 export const MovieNightsContext = createContext();
 
@@ -109,7 +96,6 @@ export function MovieNightsProvider({ children }) {
             id: doc.id,
             ...doc.data()
           }));
-          console.log('DAtA', movieNightsData);
           dispatch({ type: 'FETCH_MOVIE_NIGHTS_SUCCESS', payload: movieNightsData });
         } catch (error) {
           dispatch({ type: 'FETCH_MOVIE_NIGHTS_FAILURE', payload: error.message });

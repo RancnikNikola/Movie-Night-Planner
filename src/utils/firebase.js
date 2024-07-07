@@ -5,6 +5,7 @@ import { getFirestore, doc, getDoc, setDoc } from 'firebase/firestore';
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 
 import { FIREBASE_API, FIREBASE_REALTIME_DB_URL } from "../../apis";
+import { getDatabase } from "firebase/database";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -21,27 +22,24 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
+export const database = getDatabase(app);
 
 export const createUserDocumentFromAuth = async (
-  userAuth,
-  additionalInformation = {}
+  userAuth
 ) => {
   if (!userAuth) return;
 
   const userDocRef = doc(db, 'users', userAuth.uid);
-
   const userSnapshot = await getDoc(userDocRef);
 
   if (!userSnapshot.exists()) {
-    const { displayName, email } = userAuth;
+    const { email } = userAuth;
     const createdAt = new Date();
 
     try {
       await setDoc(userDocRef, {
-        displayName,
         email,
         createdAt,
-        ...additionalInformation,
       });
     } catch (error) {
       console.log('error creating the user', error.message);
@@ -52,13 +50,13 @@ export const createUserDocumentFromAuth = async (
 };
 
 
-export const register = async (email, password) => {
+export const registerUser = async (email, password) => {
   if (!email || !password) return;
 
   return await createUserWithEmailAndPassword(auth, email, password);
 };
 
-export const login = async (email, password) => {
+export const loginUser = async (email, password) => {
   if (!email || !password) return;
 
   return await signInWithEmailAndPassword(auth, email, password);

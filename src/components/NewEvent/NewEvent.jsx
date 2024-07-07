@@ -3,20 +3,17 @@ import MovieNightModal from "../movieNightModal/MovieNightModal";
 import SelectedMovie from "../selectedMovie/SelectedMovie";
 import { MovieNightsContext } from "../../store/movieNights/MovieNightsCtx";
 
-import './newEvent.css';
 import { UserContext } from "../../store/userContext/UserContext";
 import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../utils/firebase";
+import { MOVIES_API } from "../../../apis";
 
+import './newEvent.css';
 
 export default function NewEvent() {
 
     const movieNightsCtx = useContext(MovieNightsContext);
     const userCtx = useContext(UserContext);
-
-    console.log('Movie Nights Context', movieNightsCtx);
-    console.log('user CTX', userCtx);
-    // console.log('user context', userCtx.currentUser.uid);
 
     const [ eventTitle, setEventTitle ] = useState('');
     const [ fetchedMovies, setFetchedMovies ] = useState([]);
@@ -45,7 +42,7 @@ export default function NewEvent() {
 
     const searchMovies = useCallback(async function searchMovies() {
         setIsSearching(true);
-        const searchUrl = `https://api.themoviedb.org/3/search/movie?query=${querySearch}&api_key=b2a90a13afa2c62eea2d08e01760b568&include_adult=false&include_video=false&language=en-US&sort_by=popularity.desc&page=${fetchedCurrPage}`;
+        const searchUrl = `https://api.themoviedb.org/3/search/movie?query=${querySearch}&api_key=${MOVIES_API}&include_adult=false&include_video=false&language=en-US&sort_by=popularity.desc&page=${fetchedCurrPage}`;
 
         try {
             const results = await fetch(searchUrl);
@@ -146,11 +143,9 @@ export default function NewEvent() {
             console.error('Error creating event: ', error);
         }
 
-        console.log(newEvent);
+        // console.log(newEvent);
     }
 
-
-    console.log('Selected MOVIE', selectedMovie);
 
     return (
         <MovieNightModal className="new__event" open={movieNightsCtx.isOpen} onClose={handleExitModal}>
@@ -164,6 +159,7 @@ export default function NewEvent() {
                         id="eventTitle"
                         value={eventTitle}
                         onChange={handleEventTitle}
+                        required
                         />
                 </div>
                 <div className="search__movies">
@@ -176,6 +172,7 @@ export default function NewEvent() {
                             placeholder='Search movie ...'
                             value={querySearch}
                             onChange={handleSearch}
+                            required
                         />
                     </div>
                     <ul className="movie__search__results">
@@ -190,6 +187,7 @@ export default function NewEvent() {
                        }
                         <div className="pagination">
                             <button 
+                                type="button"
                                 onClick={() => handlePageChange(fetchedCurrPage - 1)} 
                                 disabled={fetchedCurrPage === 1}
                             >
@@ -197,6 +195,7 @@ export default function NewEvent() {
                             </button>
                             <span>Page {fetchedCurrPage} of {fetchedTotalPages}</span>
                             <button 
+                                type="button"
                                 onClick={() => handlePageChange(fetchedCurrPage + 1)} 
                                 disabled={fetchedCurrPage === fetchedTotalPages}
                             >
@@ -218,6 +217,7 @@ export default function NewEvent() {
                                 placeholder="Add snack ..."
                                 value={snacksInput}
                                 onChange={handleSnacks} 
+                                required
                             />
                             <button className="add__snack" onClick={addSnack} type="button">Add</button>
                     </div>
@@ -241,6 +241,7 @@ export default function NewEvent() {
                     id="description"
                     value={description}
                     onChange={handleDescription}
+                    required
                      />
             </div>
 
@@ -253,6 +254,7 @@ export default function NewEvent() {
                             name="date"
                             value={date}
                             onChange={handleDate}
+                            required
                         />
                 </div>
                 <div className="time__container">
@@ -263,6 +265,7 @@ export default function NewEvent() {
                         name="time"
                         value={time}
                         onChange={handleTime}
+                        required
                      />
                 </div>
                 <div className="location__container">
@@ -274,6 +277,7 @@ export default function NewEvent() {
                         name="location"
                         value={location}
                         onChange={handleLocation}
+                        required
                     />
                 </div>
             </div>

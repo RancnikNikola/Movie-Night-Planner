@@ -2,9 +2,9 @@
 
 import { useEffect, useState, useCallback } from 'react';
 import MovieCard from '../../components/movieCard/MovieCard';
+import { MOVIES_API } from '../../../apis';
 
 import './movies.css';
-import { MOVIES_API } from '../../../apis';
 
 export default function Movies() {
 
