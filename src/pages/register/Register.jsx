@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { registerUser, createUserDocumentFromAuth } from '../../utils/firebase';
+import { registerUser, storage } from '../../utils/firebase';
 import { updateProfile } from 'firebase/auth';
-import { getStorage, ref, uploadBytes } from 'firebase/storage';
+import { getStorage, ref, uploadBytes,getDownloadURL } from 'firebase/storage';
 
 import './register.css';
 
@@ -35,9 +35,16 @@ const Register = () => {
 
       const photoURL = URL.createObjectURL(photoFile);
 
-      updateProfile(user, {
+      // Upload the user's image to Firebase Storage
+      const storageRef = ref(storage, `user-images/${user.uid}/${photoFile.name}`);
+      await uploadBytes(storageRef, photoFile);
+
+      // Get the download URL of the uploaded image
+      const imageUrl = await getDownloadURL(storageRef);
+
+      await updateProfile(user, {
         displayName: displayName,
-        photoURL: photoURL
+        photoURL: imageUrl
       });
       
       resetFormFields();
@@ -60,6 +67,8 @@ const Register = () => {
       const profileURL = event.target.files[0];
       setPhotoFile(profileURL);
   }
+
+  console.log('PHOTOOO FILEE', photoFile);
 
   return (
     <div className='sign-up-container'>

@@ -13,6 +13,7 @@ import { UserProvider } from "./store/userContext/UserContext";
 
 import './App.css'
 import { ChatProvider } from "./store/chatContext/ChatContext";
+import UserProfile from "./pages/userProfile/UserProfille";
 
 // stavit potrvrdu da je event kreiran i redirectat na event
 // sredit sve forme sa validacijom
@@ -33,6 +34,7 @@ function App() {
       { path: 'movie-nights/:movieNightId', element: <MovieNightDetails /> },
       { path: 'movies', element: <Movies /> },
       { path: 'movies/:movieId', element: <MovieDetails /> },
+      { path: 'profile/:profileId', element: <UserProfile /> }
     ],
     }]);
 

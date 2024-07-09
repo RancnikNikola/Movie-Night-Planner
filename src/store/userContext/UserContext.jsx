@@ -94,8 +94,6 @@ export const UserProvider = ({ children }) => {
     return unsubscribe;
   }, []);
 
-  console.log(currentUser);
-
   const value = {
     currentUser,
     logoutUser

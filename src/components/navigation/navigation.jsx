@@ -43,7 +43,7 @@ function Navigation() {
                 </li>
                <div className="nav__right">
                     <li>
-                        <Link>
+                        <Link to={`/profile/${userCtx.currentUser?.uid}`}>
                             <img src={ProfileImg} alt="Profile image" className="profile__img"/>
                         </Link>
                     </li>

@@ -6,6 +6,7 @@ import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, on
 
 import { FIREBASE_API, FIREBASE_REALTIME_DB_URL } from "../../apis";
 import { getDatabase } from "firebase/database";
+import { getStorage } from "firebase/storage";
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -23,6 +24,7 @@ export const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const database = getDatabase(app);
+export const storage = getStorage(app);
 
 export const createUserDocumentFromAuth = async (
   userAuth
