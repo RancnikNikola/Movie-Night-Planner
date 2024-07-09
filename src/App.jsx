@@ -12,6 +12,7 @@ import { MovieNightsProvider } from "./store/movieNights/MovieNightsCtx";
 import { UserProvider } from "./store/userContext/UserContext";
 
 import './App.css'
+import { ChatProvider } from "./store/chatContext/ChatContext";
 
 // stavit potrvrdu da je event kreiran i redirectat na event
 // sredit sve forme sa validacijom
@@ -37,9 +38,11 @@ function App() {
 
   return (
       <UserProvider>
+        <ChatProvider>
         <MovieNightsProvider>
           <RouterProvider router={router} />
         </MovieNightsProvider>
+        </ChatProvider>
       </UserProvider>
   )
 }

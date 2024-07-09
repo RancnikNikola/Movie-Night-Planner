@@ -8,8 +8,6 @@ const OnlineUsers = () => {
     ([_, status]) => status.state === 'online'
   );
 
-  console.log('ONLINE USERS', onlineUsers);
-
   return (
     <div>
       <h3>Online Users</h3>
