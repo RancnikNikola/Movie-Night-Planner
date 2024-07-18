@@ -4,6 +4,8 @@ import { Link, NavLink, useNavigate } from "react-router-dom";
 import TapeLogo from '../../assets/Movie-tape.png';
 import ProfileImg from '../../assets/profile-img.jpg';
 import { logOutUser } from '../../utils/firebase';
+import { IoIosNotifications } from "react-icons/io";
+
 
 import './navigation.css';
 import { UserContext } from '../../store/userContext/UserContext';

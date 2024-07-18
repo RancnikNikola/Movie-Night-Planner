@@ -8,6 +8,7 @@ import OnlineUsers from '../../components/onlineUsers/OnlineUsers';
 import './home.css';
 import ChatComponent from '../../components/chat/Chat';
 import UserSelection from '../../components/chat/UserSelection';
+import NotificationHandler from '../../components/notification-handler/NotificationHandler';
 
 export default function Home() {
     return (
@@ -20,6 +21,7 @@ export default function Home() {
         <ChatComponent />
         <OnlineUsers />
         {/* <UserSelection /> */}
+        <NotificationHandler />
         </>
     )
 }

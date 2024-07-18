@@ -139,7 +139,8 @@ export default function NewEvent() {
         }
 
         try {
-            await setDoc(doc(db, 'movie-nights', `${Date.now()}`), newEvent);
+            // await setDoc(doc(db, 'movie-nights', `${Date.now()}`), newEvent);
+            await movieNightsCtx.createEvent(newEvent);
             console.log('Event successfully created!');
         } catch (error) {
             console.error('Error creating event: ', error);

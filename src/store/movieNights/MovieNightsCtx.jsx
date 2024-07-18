@@ -1,6 +1,6 @@
 import { createContext, useReducer } from "react";
 import { useState, useEffect } from "react";
-import { getDocs, collection } from "firebase/firestore";
+import { getDocs, collection, doc, setDoc, getDoc, updateDoc, arrayRemove } from "firebase/firestore";
 import { db } from "../../utils/firebase";
 
 
@@ -52,7 +52,14 @@ function MovieNightsReducer(state, action) {
             ...state,
             error: action.payload,
             loading: false,
-          }
+          };
+        case 'UPDATE_MOVIE_NIGHT_SUCCESS':
+          return {
+            ...state,
+            movieNights: state.movieNights.map((movieNight) => {
+              movieNight.id === action.payload.id ? action.payload : movieNight
+            })
+          };
         default:
             return state;
     }
@@ -106,6 +113,65 @@ export function MovieNightsProvider({ children }) {
     }, []);
 
 
+    const createEvent = async (event) => {
+      try {
+        const eventRef = doc(collection(db, 'movie-nights'));
+        await setDoc(eventRef, event);
+        dispatch({ type: 'ADD_MOVIE_NIGHT_SUCCESS', payload: { id: eventRef.id, ...event } });
+  
+        // Send notifications to participants
+        event.participants.forEach(participantId => {
+          const notification = {
+            type: 'MOVIE_NIGHT_INVITE',
+            eventId: eventRef.id,
+            eventName: event.title,
+            eventDate: event.date,
+            sender: event.createdBy.name,
+            status: 'pending',
+          };
+          setDoc(doc(db, `users/${participantId}/notifications`, eventRef.id), notification);
+        });
+      } catch (error) {
+        console.error('Error creating event: ', error);
+      }
+    };
+
+    const updateEventParticipants = async (eventId, userId, response) => {
+      const eventRef = doc(db, 'movie-nights', eventId);
+  
+      // Retrieve the current event data
+      const eventSnapshot = await getDoc(eventRef);
+      const eventData = eventSnapshot.data();
+  
+      if (!eventData) {
+          // Handle case where event data does not exist
+          console.error(`Event with ID ${eventId} does not exist.`);
+          return;
+      }
+  
+      let participants = eventData.participants || [];
+  
+      if (response === 'accepted') {
+          // Add userId to participants array
+          participants = Array.from(new Set([...participants, userId])); // Ensure userId is unique
+      } else {
+          // Remove userId from participants array
+          participants = participants.filter(id => id !== userId);
+      }
+  
+      // Update the Firestore document with the updated participants array
+      await updateDoc(eventRef, { participants });
+  
+      // Retrieve the updated event data after the update
+      const updatedEventSnapshot = await getDoc(eventRef);
+      const updatedEventData = updatedEventSnapshot.data();
+  
+      // Dispatch action with updated event data
+      dispatch({ type: 'UPDATE_MOVIE_NIGHT_SUCCESS', payload: { id: eventId, ...updatedEventData } });
+  };
+  
+
+
 
     const movieNightsCtxValue = {
         movieNights: movieNights.movieNights,
@@ -116,7 +182,9 @@ export function MovieNightsProvider({ children }) {
         openActorsModal,
         closeActorsModal,
         exitActorsModal,
-        isActorsOpen
+        isActorsOpen,
+        createEvent,
+        updateEventParticipants
     }
 
   
