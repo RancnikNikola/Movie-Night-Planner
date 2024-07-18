@@ -59,7 +59,7 @@ function MovieNightsReducer(state, action) {
 }
 
 export function MovieNightsProvider({ children }) {
-    const [ movieNights, dispatch] = useReducer(MovieNightsReducer, initialState);
+    const [ movieNights, dispatch ] = useReducer(MovieNightsReducer, initialState);
     const [ isOpen, setIsOpen ] = useState(false);
     const [ isActorsOpen, setIsActorsOpen ] = useState(false);
 
@@ -76,7 +76,7 @@ export function MovieNightsProvider({ children }) {
     }
 
     function openActorsModal() {
-      setIsActorsOpen(!isOpen);
+      setIsActorsOpen(!isOpen); // way with the old state => new state
     }
 
     function closeActorsModal() {

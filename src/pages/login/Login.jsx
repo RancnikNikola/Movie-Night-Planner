@@ -2,8 +2,8 @@
 
 import { useContext, useState } from 'react';
 import { loginUser } from '../../utils/firebase';
-import './login.css';
 import { UserContext } from '../../store/userContext/UserContext';
+import './login.css';
 
 
 const defaultFormFields = {
@@ -12,12 +12,10 @@ const defaultFormFields = {
   };
 
 export default function Login() {
-    const [formFields, setFormFields] = useState(defaultFormFields);
+    const [ formFields, setFormFields ] = useState(defaultFormFields);
     const { email, password } = formFields;
 
     const userCtx = useContext(UserContext);
-
-    console.log('USER CTX', userCtx);
 
     const resetFormFields = () => {
         setFormFields(defaultFormFields);

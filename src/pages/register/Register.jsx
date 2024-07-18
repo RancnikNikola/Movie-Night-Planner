@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import { registerUser, storage } from '../../utils/firebase';
+import { registerUser, storage, db } from '../../utils/firebase';
 import { updateProfile } from 'firebase/auth';
 import { getStorage, ref, uploadBytes,getDownloadURL } from 'firebase/storage';
+import { getDoc, updateDoc, doc } from 'firebase/firestore';
 
 import './register.css';
 
@@ -42,9 +43,11 @@ const Register = () => {
       // Get the download URL of the uploaded image
       const imageUrl = await getDownloadURL(storageRef);
 
-      await updateProfile(user, {
+      const userRef = doc(db, 'users', user.uid);
+      await updateDoc(userRef, {
         displayName: displayName,
-        photoURL: imageUrl
+        photoURL: imageUrl,
+        online: true
       });
       
       resetFormFields();

@@ -47,10 +47,10 @@ const chatReducer = (state, action) => {
 const ChatContext = createContext({
   chats: {},
   selectedChatId: null,
-  selectChat: () => null,
-  sendMessage: () => null,
-  setChats: () => null,
-  markAsRead: () => null,
+  selectChat: () => {},
+  sendMessage: () => {},
+  setChats: () => {},
+  markAsRead: () => {},
 });
 
 const ChatProvider = ({ children }) => {
@@ -92,26 +92,6 @@ const ChatProvider = ({ children }) => {
 
     return () => unsubscribe();
   }, []);
-
-  // Listen for new messages
-  useEffect(() => {
-    if (!currentUser) return;
-
-    const chatListeners = Object.keys(chats).map(chatId => {
-      const messagesRef = ref(database, `chats/${chatId}/messages`);
-      return onValue(messagesRef, (snapshot) => {
-        const messagesData = snapshot.val();
-        if (!messagesData) return;
-
-        const lastMessage = Object.values(messagesData).pop();
-        if (lastMessage.senderId !== currentUser.uid && chatId !== selectedChatId && !lastMessage.isRead) {
-          showToastNotification(`New message from ${lastMessage.senderName}: ${lastMessage.text}`);
-        }
-      });
-    });
-
-    return () => chatListeners.forEach(unsub => unsub());
-  }, [chats, currentUser, selectedChatId]);
 
   const selectChat = useCallback((chatId) => {
     dispatch({ type: CHAT_ACTION_TYPES.SELECT_CHAT, payload: chatId });

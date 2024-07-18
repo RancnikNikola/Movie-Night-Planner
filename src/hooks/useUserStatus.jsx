@@ -3,7 +3,7 @@ import { database } from '../utils/firebase';
 import { ref, onValue } from 'firebase/database';
 
 const useUserStatuses = () => {
-  const [userStatuses, setUserStatuses] = useState({});
+  const [ userStatuses, setUserStatuses ] = useState({});
 
   useEffect(() => {
     const userStatusRef = ref(database, 'status');

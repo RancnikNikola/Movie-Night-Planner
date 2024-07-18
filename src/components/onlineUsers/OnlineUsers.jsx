@@ -1,23 +1,33 @@
-import React from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import useUserStatuses from '../../hooks/useUserStatus';
+import OnlineUser from '../onlineUser/OnlineUser';
+import useUserDetails from '../../hooks/useUserDetails';
+import { UserContext } from '../../store/userContext/UserContext';
+import { ChatContext } from '../../store/chatContext/ChatContext';
 
 const OnlineUsers = () => {
-  const userStatuses = useUserStatuses();
 
-  const onlineUsers = Object.entries(userStatuses).filter(
-    ([_, status]) => status.state === 'online'
+  const userCtx = useContext(UserContext);
+
+  useEffect(() => {
+    userCtx.fetchOnlineUsers();
+  }, []);
+
+  console.log('ONLINE USERS');
+
+  const onlineUsersExcludingCurrentUser = userCtx.onlineUsers.filter(
+    (onlineUser) => onlineUser.id !== userCtx.currentUser?.uid
   );
 
+
   return (
-    <div>
+    <div key={userCtx.currentUser}>
       <h3>Online Users</h3>
-      <ul>
-        {onlineUsers.map(([userId, status]) => (
-          <li key={userId}>
-            User ID: {status.displayName} - Last changed: {new Date(status.last_changed).toLocaleString()}
-          </li>
-        ))}
-      </ul>
+       {
+        onlineUsersExcludingCurrentUser.map((onlineUser) => (
+          <OnlineUser key={onlineUser.uid} onlineUser={onlineUser} />
+        ))
+       }
     </div>
   );
 };

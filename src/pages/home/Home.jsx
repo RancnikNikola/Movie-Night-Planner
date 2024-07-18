@@ -17,9 +17,9 @@ export default function Home() {
         {/* <UpcomingMovieNights /> */}
         <NewEvent />
         <CheckActors />
-        <OnlineUsers />
         <ChatComponent />
-        <UserSelection />
+        <OnlineUsers />
+        {/* <UserSelection /> */}
         </>
     )
 }

@@ -8,12 +8,15 @@ import { doc, setDoc } from "firebase/firestore";
 import { db } from "../../utils/firebase";
 import { MOVIES_API } from "../../../apis";
 
+import useUserStatuses from "../../hooks/useUserStatus";
+
 import './newEvent.css';
 
 export default function NewEvent() {
 
     const movieNightsCtx = useContext(MovieNightsContext);
     const userCtx = useContext(UserContext);
+
 
     const [ eventTitle, setEventTitle ] = useState('');
     const [ fetchedMovies, setFetchedMovies ] = useState([]);
@@ -28,8 +31,12 @@ export default function NewEvent() {
     const [ time, setTime ] = useState('');
     const [ location, setLocation ] = useState('');
     const [ selectedMovie, setSelectedMovie ] = useState(null);
+    const [ participants, setParticipants ] = useState([]);
 
 
+    const onlineUsersExcludingCurrentUser = userCtx.onlineUsers.filter(
+        (onlineUser) => onlineUser.id !== userCtx.currentUser?.uid
+      );
 
 
     function handleCloseModal() {
@@ -112,13 +119,6 @@ export default function NewEvent() {
             name: userCtx.currentUser.displayName
         }
 
-        // console.log(selectedMovie);
-        // console.log(snacks);
-        // console.log(description);
-        // console.log(date);
-        // console.log(time);
-        // console.log(location);
-
         const t = new Date();
         const newId = t.setSeconds(t.getSeconds() + 10);
 
@@ -133,7 +133,9 @@ export default function NewEvent() {
             time: time,
             location: location,
             snacks: snacks,
-            createdBy: userCreating
+            createdBy: userCreating,
+
+            participants: participants
         }
 
         try {
@@ -144,6 +146,23 @@ export default function NewEvent() {
         }
 
         // console.log(newEvent);
+    }
+
+    const handleSelectedUsersChange = (users) => {
+        setParticipants(users);
+      };
+    
+
+
+
+    const handleSelectParticipants = (participant) => {
+        setParticipants(prevParticipants => {
+            const newParticipants = prevParticipants.includes(participant)
+              ? prevParticipants.filter(id => id !== participant)
+              : [...prevParticipants, participant];
+              handleSelectedUsersChange(newParticipants);
+            return newParticipants;
+          });
     }
 
 
@@ -283,7 +302,7 @@ export default function NewEvent() {
             </div>
 
 
-            {/* <div className="participants__container">
+            <div className="participants__container">
                 <div className="participants__input__container">
                     <p>Participants</p>
                    <div className="participants__input">
@@ -292,32 +311,36 @@ export default function NewEvent() {
                    </div>
                 </div>
                 <ul className="participant__results">
-                    <li className="participant">
-                        <img src={ParticipantImg} alt="participant img" />
-                        <h3>participant name 1</h3>
-                    </li>
-                    <li className="participant">
-                        <img src={ParticipantImg} alt="participant img" />
-                        <h3>participant name 2</h3>
-                    </li>
-                    <li className="participant">
-                        <img src={ParticipantImg} alt="participant img" />
-                        <h3>participant name 3</h3>
-                    </li>
-                    <li className="participant">
-                        <img src={ParticipantImg} alt="participant img" />
-                        <h3>participant name 4</h3>
-                    </li>
-                    <li className="participant">
-                        <img src={ParticipantImg} alt="participant img" />
-                        <h3>participant name 5</h3>
-                    </li>
-                    <li className="participant">
-                        <img src={ParticipantImg} alt="participant img" />
-                        <h3>participant name 6</h3>
-                    </li>
+
+
+                {
+                onlineUsersExcludingCurrentUser.map((onlineUser) => {
+
+                    const isSelected = participants.includes(onlineUser.id)
+
+                    return (
+                        <li className="user-selection-item" style={{ marginRight: '10px' }}>
+                        <input 
+                            type="checkbox"
+                            checked={isSelected}
+                            onChange={() => handleSelectParticipants(onlineUser.id)}
+                        />
+                        <img 
+                            src={onlineUser.photoURL} 
+                            alt={`${onlineUser.displayName}'s avatar`} 
+                            style={{ width: '40px', height: '40px', borderRadius: '50%' }} 
+                            onClick={() => startChat(onlineUser.id)}
+                        />
+                        <p>{onlineUser.displayName}</p>
+    
+                        </li>
+                    )
+                })
+                } 
+
+                    
                 </ul>
-            </div> */}
+            </div>
 
             <div className="chat__container">
                 <h1>Chat</h1>
