@@ -1,0 +1,20 @@
+.chat__window {
+    background-color: #333;
+}
+
+.chat__msgs {
+    background-color: deeppink;
+}
+
+.li_msgs {
+    background-color: hotpink;
+    display: flex;
+}
+
+.displayname__user {
+    color: rebeccapurple;
+    text-transform: uppercase;
+}
+.notification__badge__nav {
+    background-color: turquoise;
+}

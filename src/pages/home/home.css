@@ -1,212 +1,30 @@
+.home {
+    display: flex;
+    width: 100%;
+}
+.home__parallax {
+    background-color: transparent;
+    flex: 1;
+}
+.home__content {
+    background-color: transparent;
+    flex: 3;
 
+    position: relative;
+}
+.chat {
+    flex: 1;
+}
 
-.header__1 {
-    font-family: "Bungee", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 8vw;
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-  }
-  
-  
-  .header__1 span {
-    background: -webkit-linear-gradient(90deg, #CD0181 30%, #51BFEB 60%);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-  
-  .header__2 {
-    font-family: "Bungee", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 6vw;
-  
-    color: transparent;
-    -webkit-text-stroke-width: 3px;
-    -webkit-text-stroke-color: whitesmoke;
-  
-    padding: 10px;
-  }
-  
-  .header__text {
-    font-family: "Bungee", sans-serif;
-    text-transform: lowercase;
-    font-weight: 400;
-    padding: 10px;
-    color: rgb(207, 207, 207);
-  }
-  
-  button {
-    margin: 30px;
-  }
-  .custom-btn {
-    color: #fff;
-    width: 200px;
-    height: 40px;
-    padding: 10px 30px;
-    font-family: 'Lato', sans-serif;
-    font-weight: 500;
-    background: transparent;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    position: relative;
-    display: inline-block;
-    font-size: 18px;
-  }
-  
-  
-  
-  /* 7 */
-  .btn-7 {
-    color: #21ebff;
-    line-height: 40px;
-    padding: 0;
-    border: none;
-    text-transform: capitalize;
-  }
-  .btn-7 span {
-    position: relative;
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-  .btn-7:before,
-  .btn-7:after {
-    position: absolute;
-    content: "";
-    right: 0;
-    bottom: 0;
-    background: #21ebff;
-    box-shadow: 0 0 5px #21ebff;
-    transition: all 0.3s ease;
-  }
-  .btn-7:before{
-     height: 50%;
-     width: 2px;
-  }
-  .btn-7:after {
-    width: 20%;
-    height: 2px;
-  }
-  .btn-7:hover:before {
-    height: 100%;
-  }
-  .btn-7:hover:after {
-    width: 100%;
-  }
-  .btn-7 span:before,
-  .btn-7 span:after {
-    position: absolute;
-    content: "";
-    left: 0;
-    top: 0;
-    background: #21ebff;
-    box-shadow: 0 0 5px #21ebff;
-    transition: all 0.3s ease;
-  }
-  .btn-7 span:before {
-    width: 2px;
-    height: 50%;
-  }
-  .btn-7 span:after {
-    height: 2px;
-    width: 20%;
-  }
-  .btn-7 span:hover:before {
-    height: 100%;
-  }
-  .btn-7 span:hover:after {
-    width: 100%;
-  }
-  
-  
-  
-  
-  
-  /* 14 */
-  .btn-14 {
-    position: relative;
-    color: #00aced;
-    border: none;
-    z-index: 2;
-    text-transform: capitalize;
-  }
-  .btn-14:before,
-  .btn-14:after {
-    position: absolute;
-    content: "";
-    width: 20%;
-    height: 20%;
-    border: 1px solid;
-    
-    z-index: -1;
-    transition: all 0.3s ease;
-  }
-  .btn-14:before{
-     top: 0;
-     left: 0;
-     border-bottom-color: transparent;
-     border-right-color: transparent;
-     border-top-color: #00aced;
-     border-left-color: #00aced;
-  }
-  .btn-14:after{
-     bottom: 0;
-     right: 0;
-     border-top-color: transparent;
-     border-left-color: transparent;
-     border-bottom-color: #00aced;
-     border-right-color: #00aced;
-  }
-  .btn-14:hover:before,
-  .btn-14:hover:after {
-    border-color: #00aced;
-    height: 100%;
-    width: 100%;
-    box-shadow: 0 0 5px #00aced, 0 0 5px #00aced inset;
-  }
-  .event__title {
-    font-family: "Bungee", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 3vw;
-  
-    color: transparent;
-    -webkit-text-stroke-width: 2px;
-    -webkit-text-stroke-color: whitesmoke;
-  
-    padding: 20px;
-  }
-  .events {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* justify-content: center; */
-    height: 100%;
-  }
-  .event__button__container {
-    padding: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  .upcoming__container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    /* justify-content: center; */
-    height: 100%;
-  }
-  .upcoming {
-    font-family: "Bungee", sans-serif;
-    font-weight: 400;
-    font-style: normal;
-    font-size: 3vw;
-  
-    color: transparent;
-    -webkit-text-stroke-width: 2px;
-    -webkit-text-stroke-color: whitesmoke;
-  }
+@media (max-width: 768px) {
+    .home__parallax {
+        display: none;
+    }
+    .home__content {
+        /* flex: 1; */
+        width: 100%;
+    }
+    .chat {
+        display: none;
+    }
+}
